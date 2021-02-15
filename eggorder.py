@@ -6,18 +6,17 @@ def get_orders(names, egg_order):
     """
 
     print ("Collecting Orders")
-    cont = "Y"
-    while cont == "Y":
-        name = input("What is the name for the order? ").capitalize()
-        names.append(name)
-        num_eggs = int(input("How many eggs are being ordered? "))
-        egg_order.append(num_eggs)
-        while cont != "N": #So that characters other than N or Y are not valid
-            cont = input("Do you wish to enter more orders? Enter N if No or Y if Yes: ").upper()
-            if cont == "Y":
-                break
-            else:
-                print ("That is not a valid answer. Please enter N for No or Y for Yes")
+    name = ""
+    while name != "F":
+        name = input("What is the customer's name? ('F' to finish) ").strip().capitalize()
+        if name == "F":
+            break
+        else:
+            names.append(name)
+            num_eggs = int(input("How many eggs does {} wish to order? ".format(name)))
+
+            egg_order.append(num_eggs)
+        
     return egg_order, names
 
 def show_orders(names, egg_order):
@@ -29,11 +28,8 @@ def show_orders(names, egg_order):
     print("Showing orders")
     for i in range (len(egg_order)):
         price = egg_order [i] * PRICE_PER_DOZEN
-        print("Name: {}".format(names[i]))
-        print("Number of eggs: {}".format(egg_order[i]))
-        print("Cost: ${:.2f}".format(price))
-        print("")
-    return 
+        print("{} ordered {} eggs. The price is ${:.2f}".format(names[i], egg_order[i], price))
+
     
 def show_report(egg_order):
     """
@@ -49,7 +45,7 @@ def show_report(egg_order):
     print("Total eggs: {}".format(total_eggs))
     get_dozens(total_eggs)
     avg = total_eggs / len(egg_order)
-    print("The average number of eggs per customer is {:.2f}".format(avg))
+    print("The average number of eggs per customer is {:.1f}".format(avg))
 
 def get_dozens (total_eggs):
     """
