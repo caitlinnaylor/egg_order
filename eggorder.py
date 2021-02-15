@@ -7,13 +7,17 @@ def get_orders(names, egg_order):
 
     print ("Collecting Orders")
     cont = "Y"
-    while cont != "N":
-        name = input("What is the name for the order? ")
+    while cont == "Y":
+        name = input("What is the name for the order? ").capitalize()
         names.append(name)
         num_eggs = int(input("How many eggs are being ordered? "))
         egg_order.append(num_eggs)
-        cont = input("Do you wish to enter more order? Enter N to stop or Y to continue: ")
-
+        while cont != "N": #So that characters other than N or Y are not valid
+            cont = input("Do you wish to enter more orders? Enter N if No or Y if Yes: ").upper()
+            if cont == "Y":
+                break
+            else:
+                print ("That is not a valid answer. Please enter N for No or Y for Yes")
     return egg_order, names
 
 def show_orders(names, egg_order):
@@ -21,12 +25,14 @@ def show_orders(names, egg_order):
     calculates price for each egg order, and displays order information - name, number of eggs, price
     """
     PRICE_PER_DOZEN = 6.5
+    print("")
     print("Showing orders")
     for i in range (len(egg_order)):
         price = egg_order [i] * PRICE_PER_DOZEN
         print("Name: {}".format(names[i]))
         print("Number of eggs: {}".format(egg_order[i]))
-        print("Cost: {}".format(price))
+        print("Cost: ${:.2f}".format(price))
+        print("")
     return 
     
 def show_report(egg_order):
@@ -35,25 +41,27 @@ def show_report(egg_order):
     Print "No orders" if no orders received otherwise print "Summary , Total eggs and Dozens required (call get_dozens function)
     as well as Average"
     """
+    print("")
     print("Summary")
     total_eggs = 0
     for i in range(len(egg_order)):
         total_eggs+=egg_order[i]
+    print("Total eggs: {}".format(total_eggs))
     get_dozens(total_eggs)
     avg = total_eggs / len(egg_order)
-    print("The average number of eggs per customer is {}".format(avg))
+    print("The average number of eggs per customer is {:.2f}".format(avg))
 
 def get_dozens (total_eggs):
     """
     returns whole number of dozens required to meet required number of eggs
     """
     dozens_ordered = total_eggs /12
-    dozens_ordered = math.ceil(dozens_orders)
+    dozens_ordered = math.ceil(dozens_ordered) #So that the amount of dozens cover all the eggs
     print("Amount of dozens to be ordered: {}".format(dozens_ordered))
 
 def read_pos_int(prompt):
    
-      print("Not sure what this is")
+      print("Not sure what this is for?")
 
 
 #main routine
