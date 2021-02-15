@@ -8,14 +8,25 @@ def get_orders(names, egg_order):
     print ("Collecting Orders")
     name = ""
     while name != "F":
+        num_eggs = 0
         name = input("What is the customer's name? ('F' to finish) ").strip().capitalize()
         if name == "F":
             break
         else:
             names.append(name)
-            num_eggs = int(input("How many eggs does {} wish to order? ".format(name)))
-
+            while True:
+                try:
+                    while num_eggs <=0: 
+                        num_eggs = int(input("How many eggs does {} wish to order? ".format(name)))
+                        if num_eggs <= 0:
+                            print("Not a valid number. Try again")
+                    else:
+                        break
+                except:
+                    print("Not a valid positive integer. Try again")
+                
             egg_order.append(num_eggs)
+            
         
     return egg_order, names
 
@@ -42,10 +53,13 @@ def show_report(egg_order):
     total_eggs = 0
     for i in range(len(egg_order)):
         total_eggs+=egg_order[i]
-    print("Total eggs: {}".format(total_eggs))
-    get_dozens(total_eggs)
-    avg = total_eggs / len(egg_order)
-    print("The average number of eggs per customer is {:.1f}".format(avg))
+    if total_eggs == 0:
+        print("No orders")
+    else:
+        print("Total eggs: {}".format(total_eggs))
+        get_dozens(total_eggs)
+        avg = total_eggs / len(egg_order)
+        print("The average number of eggs per customer is {:.1f}".format(avg))
 
 def get_dozens (total_eggs):
     """
@@ -53,7 +67,7 @@ def get_dozens (total_eggs):
     """
     dozens_ordered = total_eggs /12
     dozens_ordered = math.ceil(dozens_ordered) #So that the amount of dozens cover all the eggs
-    print("Amount of dozens to be ordered: {}".format(dozens_ordered))
+    print("Dozens required: {}".format(dozens_ordered))
 
 def read_pos_int(prompt):
    
